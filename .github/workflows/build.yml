@@ -21,12 +21,18 @@ jobs:
   openmqttgateway-firmware:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out the integrated OpenMQTTGateway branch
+      - name: Check out ZLab integration sources
         uses: actions/checkout@v4
         with:
-          repository: zhangjik5-svg/OpenMQTTGateway
-          ref: zlab-message-guard
+          path: zlab
+      - name: Check out official OpenMQTTGateway upstream
+        uses: actions/checkout@v4
+        with:
+          repository: 1technophile/OpenMQTTGateway
+          ref: development
           path: OpenMQTTGateway
+      - name: Apply message guard integration
+        run: python zlab/integration/OpenMQTTGateway/integrate.py OpenMQTTGateway
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"

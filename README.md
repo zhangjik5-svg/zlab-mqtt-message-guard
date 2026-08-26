@@ -62,7 +62,7 @@ ctest --test-dir build --output-on-failure
 
 ## 与上游项目的关系
 
-`MessageGuard` 是独立编写的 MIT 许可模块。集成分支保留 OpenMQTTGateway 原有 GPL-3.0 许可、作者信息和完整 Git 历史，没有把上游项目重新声称为个人原创。项目经历中可以准确描述为：
+`MessageGuard` 是独立编写的 MIT 许可模块。自动构建直接检出官方 OpenMQTTGateway `development`，再运行本仓库的集成脚本，不依赖个人 Fork。集成过程保留上游 GPL-3.0 许可和作者信息，没有把上游项目重新声称为个人原创。项目经历中可以准确描述为：
 
 > 基于 OpenMQTTGateway 二次开发消息可靠性保护层，实现固定内存的按设备去重、令牌桶限流、异常隔离与自动化测试，并完成 ESP32 网关入队链路集成。
 
