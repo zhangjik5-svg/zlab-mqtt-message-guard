@@ -17,3 +17,21 @@ jobs:
         run: ctest --test-dir build --output-on-failure
       - name: Run gateway simulation
         run: ./build/gateway_sim
+
+  openmqttgateway-firmware:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the integrated OpenMQTTGateway branch
+        uses: actions/checkout@v4
+        with:
+          repository: zhangjik5-svg/OpenMQTTGateway
+          ref: zlab-message-guard
+          path: OpenMQTTGateway
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install PlatformIO
+        run: python -m pip install --disable-pip-version-check platformio
+      - name: Build ESP32 RF gateway firmware
+        working-directory: OpenMQTTGateway
+        run: pio run -e esp32dev-rf
