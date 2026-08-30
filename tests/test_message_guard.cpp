@@ -100,6 +100,20 @@ void testInvalidInput() {
   expect(guard.stats().invalid == 2, "invalid counter increments");
 }
 
+void testResetAndDecisionNames() {
+  zlab::MessageGuard guard(strictConfig());
+  guard.evaluate("sensor", 1, 0);
+  expect(guard.trackedDevices() == 1, "device is tracked before reset");
+  expect(guard.stats().received == 1, "statistics record evaluated messages");
+
+  guard.reset();
+  expect(guard.trackedDevices() == 0, "reset clears the bounded device table");
+  expect(guard.stats().received == 0, "reset clears statistics");
+  expect(std::string(zlab::MessageGuard::decisionName(
+             zlab::GuardDecision::RateLimited)) == "rate_limited",
+         "decision names are stable for diagnostics");
+}
+
 }  // namespace
 
 int main() {
@@ -109,6 +123,7 @@ int main() {
   testBoundedDeviceTable();
   testMillisWraparound();
   testInvalidInput();
+  testResetAndDecisionNames();
   if (failures != 0) return EXIT_FAILURE;
   std::cout << "All MessageGuard tests passed\n";
   return EXIT_SUCCESS;
